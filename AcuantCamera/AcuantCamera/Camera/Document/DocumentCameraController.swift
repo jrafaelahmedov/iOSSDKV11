@@ -69,6 +69,9 @@ import AcuantCommon
 
         let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(touchAction(_:)))
         self.view.addGestureRecognizer(gestureRecognizer)
+        startCameraView()
+        addDeviceOrientationObserver()
+        addCaptureSessionObservers()
     }
     
     @objc internal func touchAction(_ sender: UITapGestureRecognizer) {
@@ -79,7 +82,7 @@ import AcuantCommon
     
     override public func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        startCameraView()
+       
     }
     
     override public func viewWillAppear(_ animated: Bool) {
