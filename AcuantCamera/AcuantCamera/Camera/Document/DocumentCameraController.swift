@@ -217,9 +217,6 @@ import AcuantCommon
             messageLayer.setFrame(frame: view.bounds)
             cornerLayer.setHorizontalDefaultCorners(frame: view.bounds)
         } else {
-            if CATransform3DIsIdentity(messageLayer.transform) {
-                messageLayer.rotate(angle: 90)
-            }
             messageLayer.setVerticalDefaultSettings(frame: view.bounds)
             cornerLayer.setFrame(frame: view.bounds)
         }

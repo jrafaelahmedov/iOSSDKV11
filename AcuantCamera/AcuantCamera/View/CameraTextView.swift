@@ -89,10 +89,10 @@ public class CameraTextView: CATextLayer {
         self.fontSize = textSizeDefault
         self.backgroundColor = backgroundColorDefault
         self.foregroundColor = foregroundColorDefault
-        self.frame = CGRect(x: frame.width / 2 - defaultHeight / 2,
-                            y: frame.height / 2 - defaultWidth / 2,
-                            width: defaultHeight,
-                            height: defaultWidth)
+        self.frame = CGRect(x: frame.width / 2 - defaultWidth / 2,
+                            y: frame.height / 2 - defaultHeight / 2,
+                            width: defaultWidth,
+                            height: defaultHeight)
     }
 
     func setVerticalCaptureSettings(frame: CGRect) {
