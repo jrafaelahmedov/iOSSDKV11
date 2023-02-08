@@ -157,29 +157,38 @@ import AcuantCommon
     }
 
     func startCameraView() {
-        let captureDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: AVMediaType.video, position: .back)!
-        self.captureSession = DocumentCaptureSession.getDocumentCaptureSession(delegate: self,
-                                                                               frameDelegate: self,
-                                                                               autoCaptureDelegate: self,
-                                                                               captureDevice: captureDevice)
-        self.captureSession.start()
-        cameraPreviewView = CameraPreviewView(frame: view.bounds, captureSession: captureSession)
-        cameraPreviewView.videoPreviewLayer.videoGravity = UIDevice.current.userInterfaceIdiom == .pad
+        guard let captureDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: AVMediaType.video, position: .back) else {
+                let alert = UIAlertController(title: "Error", message: "Camera does not work or not exists", preferredStyle: .alert)
+                let closeAction = UIAlertAction(title: "Close", style: .default) { [weak self] _ in
+                    self?.navigationController?.popViewController(animated: true)
+                }
+                alert.addAction(closeAction)
+                self.present(alert, animated: true, completion: nil)
+                return
+           }
+            self.captureSession = DocumentCaptureSession.getDocumentCaptureSession(delegate: self,
+                                                                                   frameDelegate: self,
+                                                                                   autoCaptureDelegate: self,
+                                                                                   captureDevice: captureDevice)
+            
+            self.captureSession.start()
+            cameraPreviewView = CameraPreviewView(frame: view.bounds, captureSession: captureSession)
+            cameraPreviewView.videoPreviewLayer.videoGravity = UIDevice.current.userInterfaceIdiom == .pad
             ? .resizeAspectFill
             : .resizeAspect
-
-        createCameraLayers()
-
-        self.cameraPreviewView.layer.addSublayer(self.messageLayer)
-        self.cameraPreviewView.layer.addSublayer(self.shapeLayer)
-        self.cameraPreviewView.layer.addSublayer(self.cornerLayer)
-        self.view.addSubview(cameraPreviewView)
-        
-        rotateCameraPreview(to: self.view.window?.interfaceOrientation)
-
-        if self.options.showBackButton {
-            addNavigationBackButton()
-        }
+            
+            createCameraLayers()
+            
+            self.cameraPreviewView.layer.addSublayer(self.messageLayer)
+            self.cameraPreviewView.layer.addSublayer(self.shapeLayer)
+            self.cameraPreviewView.layer.addSublayer(self.cornerLayer)
+            self.view.addSubview(cameraPreviewView)
+            
+            rotateCameraPreview(to: self.view.window?.interfaceOrientation)
+            
+            if self.options.showBackButton {
+                addNavigationBackButton()
+            }
     }
 
     private func createCameraLayers() {
